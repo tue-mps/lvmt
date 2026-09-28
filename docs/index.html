@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="description" content="LVMT is an online video segmentation model built on a frozen ViT that carries objects across frames with Truncated Query Propagation (TQP), a per-query GRU memory trained over a bounded gradient horizon." />
+  <meta name="keywords" content="LVMT, ViT, vision transformer, transformers, video segmentation, semantic segmentation, instance segmentation, panoptic segmentation, segmentation">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>LVMT: Video Mask Transformer for Long-term Video Segmentation </title>
+
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-5TCTFJM8NG"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-5TCTFJM8NG');
+  </script>
+
+  <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro"
+        rel="stylesheet">
+
+  <link rel="stylesheet" href="./static/css/bulma.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-carousel.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-slider.min.css">
+  <link rel="stylesheet" href="./static/css/fontawesome.all.min.css">
+  <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+  <link rel="stylesheet" href="./static/css/index.css">
+  <link rel="icon" type="image/png" href="./static/images/favicon-96x96.png" sizes="96x96" />
+  <link rel="icon" type="image/svg+xml" href="./static/images/favicon.svg" />
+  <link rel="shortcut icon" href="./static/images/favicon.ico" />
+  <link rel="apple-touch-icon" sizes="180x180" href="./static/images/apple-touch-icon.png" />
+  <meta name="apple-mobile-web-app-title" content="LVMT" />
+  <link rel="manifest" href="./static/images/site.webmanifest" />
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script defer src="./static/js/fontawesome.all.min.js"></script>
+  <script src="./static/js/bulma-carousel.min.js"></script>
+  <script src="./static/js/bulma-slider.min.js"></script>
+  <script src="./static/js/index.js"></script>
+</head>
+<body>
+
+<nav class="navbar" role="navigation" aria-label="main navigation">
+  <div class="navbar-menu is-active">
+    <div class="navbar-start" style="flex-grow: 1; justify-content: center;">
+      <a class="navbar-item" href="https://www.tue-mps.org">
+        <span class="icon">
+          <i class="fas fa-home"></i>
+        </span>
+      </a>
+    </div>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="hero-body">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered">
+        <div class="column has-text-centered">
+          <header class="has-text-centered mb-4">
+            <h1 class="title is-1 publication-title">LVMT: Video Mask Transformer for Long-term Video Segmentation</h1>
+            <h2 class="subtitle is-4"></h2>
+          </header>
+          <div class="is-size-5 publication-authors">
+            <span class="author-block"><a href="https://scholar.google.com/citations?user=q7sm490AAAAJ" target="_blank" rel="noopener noreferrer">Narges Norouzi</a><sup>1</sup>,</span>
+            <span class="author-block"><a href="https://scholar.google.com/citations?user=Pr4XHRAAAAAJ" target="_blank" rel="noopener noreferrer">Niccolò Cavagnero</a><sup>1</sup>,</span>
+            <span class="author-block"><a href="https://scholar.google.com/citations?user=89vcmSoAAAAJ&hl=en" target="_blank" rel="noopener noreferrer">Idil Esen Zulfikar</a><sup>2</sup>,</span>
+            <span class="author-block"><a href="https://scholar.google.com/citations?user=ZcULDB0AAAAJ" target="_blank" rel="noopener noreferrer">Bastian Leibe</a><sup>2</sup>,</span>
+            <span class="author-block"><a href="https://scholar.google.nl/citations?user=wy57br8AAAAJ" target="_blank" rel="noopener noreferrer">Gijs Dubbelman</a><sup>1</sup>,</span>
+            <span class="author-block"><a href="https://ddegeus.github.io/" target="_blank" rel="noopener noreferrer">Daan de Geus</a><sup>1</sup></span>
+          </div>
+          <div class="is-size-5 publication-authors">
+            <span class="author-block"><sup>1</sup>&nbsp;Eindhoven University of Technology,</span>
+            <span class="author-block"><sup>2</sup>&nbsp;RWTH Aachen University</span>
+          </div>
+          <div class="column has-text-centered">
+            <div class="publication-links">
+              <!-- PDF Link. -->
+              <span class="link-block">
+                <a href="https://github.com/tue-mps/lvmt"
+                   class="external-link button is-normal is-rounded is-dark"
+                   target="_blank">
+                  <span class="icon">
+                      <i class="ai ai-arxiv"></i>
+                  </span>
+                  <span>Paper</span>
+                </a>
+              </span>
+              <!-- Code Link. -->
+              <span class="link-block">
+                <a href="https://github.com/tue-mps/lvmt"
+                   class="external-link button is-normal is-rounded is-dark"
+                   target="_blank">
+                  <span class="icon">
+                      <i class="fab fa-github"></i>
+                  </span>
+                  <span>Code</span>
+                  </a>
+              </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="hero teaser">
+  <div class="container is-max-desktop">
+    <div class="hero-body">
+      <div class="columns is-centered">
+        <div class="column is-10 has-text-centered">
+          <p style="font-size:1.9rem; line-height:1.3; font-weight:600; margin-bottom:0.5rem;">
+            Long-term memory. No speed penalty.
+          </p>
+          <p style="font-size:1.05rem; line-height:1.4; color:#6b7280; margin-bottom:1.75rem;">
+            <span style="color:#3273dc; font-weight:600;">+4.6 AP</span> over PMT across
+            ViT-L/B/S on OVIS, at similar FPS.
+          </p>
+        </div>
+      </div>
+      <div class="columns is-centered">
+        <div class="column is-9">
+          <figure class="image" style="text-align:center;">
+            <img src="./static/images/pmt_vs_lvmt.png"
+                alt="PMT vs. LVMT: AP against FPS on OVIS val for ViT-S, ViT-B and ViT-L"
+                style="width:100%; max-width:760px; height:auto; display:inline-block;">
+          </figure>
+          <p class="has-text-centered mt-3" style="font-size: 0.85em;">
+            <b>PMT vs. LVMT.</b> Mean AP &plusmn; std. dev. over five runs. Across ViT-L/B/S,
+            LVMT improves AP by at least <b>+4.6</b> over the efficient PMT baseline at similar
+            FPS. Evaluated on OVIS <em>val</em>.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="hero is-light">
+  <div class="hero-body container is-max-desktop">
+    <!-- Overview. -->
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3">Overview</h2>
+        <div class="content has-text-justified">
+          <p>
+            We introduce the <b>Long-term Video Mask Transformer (LVMT)</b>, an online video
+            segmentation model built on a <b>frozen</b> plain Vision Transformer (ViT). A single
+            lightweight mask decoder handles both segmentation and temporal association, without
+            relying on dedicated tracking modules or heavy task-specific heads.
+          </p>
+          <p>
+            LVMT propagates information over time with <b>Truncated Query Propagation (TQP)</b>:
+            a GRU updates each object query independently, so every query carries its own memory
+            across frames, and training splits long clips into chunks that keep gradients bounded
+            while the propagated state still spans the whole clip. This lets the memory be trained
+            on videos long enough for objects to be occluded and re-appear, which is where
+            per-frame baselines lose track.
+          </p>
+        </div>
+        </div>
+      </div>
+    </div>
+</section>
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-full-width">
+        <h2 class="title is-3">Long-term Video Mask Transformer (LVMT)</h2>
+        <img src="./static/images/arch_lvmt.png" alt="LVMT architecture" style="width:100%; max-width: 1100px; margin-top:1em; display:block; margin-left:auto; margin-right:auto;" />
+        <div class="content has-text-justified" style="max-width:1100px; margin:1.25em auto 0;">
+          <p style="font-size: 0.95em;">
+            Each frame is encoded by the <b>frozen</b> ViT and its patch tokens pass through
+            trainable projections into the mask decoder, where they are processed jointly with a
+            set of queries to produce the segmentation queries
+            <b>Q<sup>S</sup><sub>t</sub></b> and the frame's class and mask logits. TQP feeds
+            those queries to a per-slot <b>GRU</b>, with the previous step's queries as hidden
+            state, giving the propagation queries <b>Q<sup>P</sup><sub>t+1</sub></b> used on the
+            next frame. At <em>t</em>&nbsp;=&nbsp;0 the hidden state is the learnable query set
+            <b>Q<sup>lrn</sup></b>. Only the projections, the decoder and the GRU are trained.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="hero is-light">
+  <div class="hero-body container is-max-desktop">
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-full-width">
+        <h2 class="title is-3">Truncated Query Propagation (TQP)</h2>
+        <img src="./static/images/tqp_lvmt.png" alt="TQP: chunked training with detached query state and truncated gradients" style="width:100%; max-width: 1100px; margin-top:1em; display:block; margin-left:auto; margin-right:auto;" />
+        <div class="content has-text-justified" style="max-width:1100px; margin:1.25em auto 0;">
+          <p style="font-size: 0.95em;">
+            Backpropagating through a whole clip raises two problems at once: memory grows with
+            the clip length, and the gradient reaching the earliest frames vanishes after being
+            chained through every intermediate step. Both cap how much temporal context the query
+            memory can actually be trained on. TQP addresses both, splitting a
+            training clip of <i>T</i> frames into <i>M</i> chunks of <i>F</i> frames and treats the
+            two passes differently: in the <b>forward</b> pass the state at the end of a chunk is
+            <b>detached</b> and becomes the next chunk's initial state, so the model still sees the
+            full clip, while in the <b>backward</b> pass gradients are <b>truncated</b> at every
+            chunk boundary. Activation memory therefore scales with <i>F</i> rather than <i>T</i>,
+            and every chunk receives a gradient that has travelled at most <i>F</i> steps instead
+            of decaying across the whole clip &mdash; so clips can be made long enough for the
+            memory to face real occlusions and re-appearances.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+<div class="container is-max-desktop content">
+  <div class="has-text-centered">
+    <h2 class="title">Citation</h2>
+  </div>
+  <pre><code>@article{Norouzi2026LVMT,
+  author     = {Norouzi, Narges and Cavagnero, Niccol\`{o} and Zulfikar, Idil and Leibe, Bastian and Dubbelman, Gijs and {de Geus}, Daan},
+  title      = {{LVMT: Video Mask Transformer for Long-term Video Segmentation}},
+  journal   = {arxiv},
+  year       = {2026},
+}</code></pre>
+</div>
+</section>
+
+
+<footer class="footer py-6">
+  <div class="container">
+    <div class="content has-text-centered">
+      <a class="icon-link" href="https://github.com/tue-mps" target="_blank" rel="noopener noreferrer">
+        <i class="ai ai-arxiv fa-sm"></i>
+      </a>
+      <a class="icon-link" href="https://github.com/tue-mps" class="external-link" disabled>
+        <i class="fab fa-github fa-sm"></i>
+      </a>
+    </div>
+    <div class="columns is-centered">
+      <div class="column is-8">
+        <div class="content is-small has-text-centered">
+          <p>
+            This website is adapted from <a href="https://github.com/nerfies/nerfies.github.io">Nerfies</a>, licensed under a
+            <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons BY-SA 4.0 License</a>.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

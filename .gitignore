@@ -1,0 +1,10 @@
+# Ignore all .pyc files
+**/*.pyc
+
+# Ignore all .pth files
+**/*.pth
+
+**/*.out
+jobs/*
+
+wandb/*
