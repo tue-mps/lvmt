@@ -10,8 +10,8 @@
 
 <h3 align="center">Long-term memory. No speed penalty.</h3>
 <p align="center">
-<b>+4.6 AP</b> over PMT across ViT-L/B/S on OVIS, at similar FPS &mdash; and <b>+2.4 AP</b> over
-the prior state-of-the-art, DVIS-DAQ, at over <b>10&times</b> its speed.
+<b>+4.6 AP</b> over PMT across ViT-L/B/S on OVIS, at similar FPS.<br>
+<b>+2.4 AP</b> over the prior state-of-the-art, DVIS-DAQ, at over <b>10&times</b> its speed.
 </p>
 
 ![LVMT Overview](./docs/static/images/arch_lvmt.png)
