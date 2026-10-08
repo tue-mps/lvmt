@@ -1,4 +1,10 @@
 # LVMT: Video Mask Transformer for Long-term Video Segmentation
+[![Papers with Code: SOTA on VIPSeg](https://paperswithcode.co/api/v1/papers/2609.34895/leaderboard-badge.svg?eval=33538&live=1)](https://paperswithcode.co/api/v1/papers/2609.34895/leaderboard-badge-link?eval=33538)
+[![Papers with Code: SOTA on VSPW](https://paperswithcode.co/api/v1/papers/2609.34895/leaderboard-badge.svg?eval=33539&live=1)](https://paperswithcode.co/api/v1/papers/2609.34895/leaderboard-badge-link?eval=33539)
+[![Papers with Code: SOTA on YouTube-VIS 2019](https://paperswithcode.co/api/v1/papers/2609.34895/leaderboard-badge.svg?eval=33536&live=1)](https://paperswithcode.co/api/v1/papers/2609.34895/leaderboard-badge-link?eval=33536)
+[![Papers with Code: SOTA on YouTube-VIS 2021](https://paperswithcode.co/api/v1/papers/2609.34895/leaderboard-badge.svg?eval=33537&live=1)](https://paperswithcode.co/api/v1/papers/2609.34895/leaderboard-badge-link?eval=33537)
+[![Papers with Code: #3 on OVIS](https://paperswithcode.co/api/v1/papers/2609.34895/leaderboard-badge.svg?eval=33535&live=1)](https://paperswithcode.co/api/v1/papers/2609.34895/leaderboard-badge-link?eval=33535)
+
 **[📄 Paper](https://arxiv.org/abs/2609.34895)**
 
 **[Narges Norouzi](https://scholar.google.com/citations?user=q7sm490AAAAJ)<sup>1</sup>, [Niccolò Cavagnero](https://scholar.google.com/citations?user=Pr4XHRAAAAAJ)<sup>1</sup>, [Idil Esen Zulfikar](https://scholar.google.com/citations?user=89vcmSoAAAAJ&hl=en)<sup>2</sup>, [Bastian Leibe](https://scholar.google.com/citations?user=ZcULDB0AAAAJ)<sup>2</sup>, [Gijs Dubbelman](https://scholar.google.nl/citations?user=wy57br8AAAAJ)<sup>1</sup>, [Daan de Geus](https://ddegeus.github.io)<sup>1</sup>**
